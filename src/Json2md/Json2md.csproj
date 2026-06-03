@@ -10,6 +10,7 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageTags>json;markdown;converter;json2md</PackageTags>
+        <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
         <NoWarn>$(NoWarn);CA1724;IDE0060</NoWarn>
