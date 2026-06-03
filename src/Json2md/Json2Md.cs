@@ -1,3 +1,5 @@
+using System.Text.Json;
+
 namespace Json2md;
 
 /// <summary>
@@ -122,6 +124,8 @@ public static class Json2Md
     {
         ArgumentNullException.ThrowIfNull(prefix);
 
+        data = UnwrapJsonData(data);
+
         if (data is null)
         {
             return string.Empty;
@@ -195,6 +199,8 @@ public static class Json2Md
     {
         ArgumentNullException.ThrowIfNull(prefix);
 
+        data = UnwrapJsonData(data);
+
         if (data is null)
         {
             return string.Empty;
@@ -263,6 +269,59 @@ public static class Json2Md
     {
         var result = await ConvertAsync(item, "", type);
         return IndentWithPrefix(result, prefix);
+    }
+
+    private static object? UnwrapJsonData(object? data)
+    {
+        if (data is JsonDocument doc)
+        {
+            return ConvertJsonElement(doc.RootElement);
+        }
+
+        if (data is JsonElement element)
+        {
+            return ConvertJsonElement(element);
+        }
+
+        return data;
+    }
+
+    private static object? ConvertJsonElement(JsonElement element)
+    {
+        return element.ValueKind switch
+        {
+            JsonValueKind.Object => ConvertJsonObject(element),
+            JsonValueKind.Array => ConvertJsonArray(element),
+            JsonValueKind.String => element.GetString(),
+            JsonValueKind.Number => element.TryGetInt64(out var l) ? l : element.GetDouble(),
+            JsonValueKind.True => true,
+            JsonValueKind.False => false,
+            JsonValueKind.Null => null,
+            JsonValueKind.Undefined => null,
+            _ => element.ToString(),
+        };
+    }
+
+    private static Dictionary<string, object?> ConvertJsonObject(JsonElement element)
+    {
+        var dict = new Dictionary<string, object?>();
+        foreach (var property in element.EnumerateObject())
+        {
+            dict[property.Name] = ConvertJsonElement(property.Value);
+        }
+
+        return dict;
+    }
+
+    private static List<object?> ConvertJsonArray(JsonElement element)
+    {
+        var list = new List<object?>();
+        foreach (var item in element.EnumerateArray())
+        {
+            list.Add(ConvertJsonElement(item));
+        }
+
+        return list;
     }
 
     private static string AutoRenderKeyValue(string key, object? value, IConvertCallback convert)
