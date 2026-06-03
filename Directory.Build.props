@@ -4,7 +4,7 @@
         <Nullable>enable</Nullable>
         <TargetFramework>net10.0</TargetFramework>
         <Deterministic>true</Deterministic>
-        <DebugType>embedded</DebugType>
+        <DebugType>portable</DebugType>
         <PackageProjectUrl>https://github.com/BlueCurveCorp/Json2md</PackageProjectUrl>
         <RepositoryUrl>https://github.com/BlueCurveCorp/Json2md.git</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
