@@ -167,12 +167,14 @@ public static class Json2Md
             foreach (System.Collections.DictionaryEntry entry in dict)
             {
                 var entryType = (string)entry.Key;
-                if (!Converters.TryGetValue(entryType, out var func))
+                if (Converters.TryGetValue(entryType, out var func))
                 {
-                    throw new ArgumentException($"There is no such converter: {entryType}");
+                    mdText += IndentWithPrefix(func(entry.Value, callback), prefix) + "\n";
                 }
-
-                mdText += IndentWithPrefix(func(entry.Value, callback), prefix) + "\n";
+                else
+                {
+                    mdText += IndentWithPrefix(AutoRenderKeyValue(entryType, entry.Value, callback), prefix);
+                }
             }
 
             return mdText;
@@ -250,7 +252,8 @@ public static class Json2Md
                 return IndentWithPrefix(result, prefix) + "\n";
             }
 
-            throw new ArgumentException($"There is no such converter: {firstKey}");
+            var autoResult = AutoRenderKeyValue(firstKey, dict[firstKey], new SyncCallback());
+            return IndentWithPrefix(autoResult, prefix);
         }
 
         return IndentWithPrefix(data.ToString() ?? string.Empty, prefix);
@@ -260,6 +263,107 @@ public static class Json2Md
     {
         var result = await ConvertAsync(item, "", type);
         return IndentWithPrefix(result, prefix);
+    }
+
+    private static string AutoRenderKeyValue(string key, object? value, IConvertCallback convert)
+    {
+        if (value is null)
+        {
+            return string.Empty;
+        }
+
+        var label = FormatKey(key);
+
+        if (value is string str)
+        {
+            return $"**{label}:** {str}\n";
+        }
+
+        if (value is bool b)
+        {
+            return $"**{label}:** {(b ? "true" : "false")}\n";
+        }
+
+        if (value is int or long or float or double or decimal or short or byte or uint or ulong or ushort or sbyte)
+        {
+            return $"**{label}:** {System.Convert.ToString(value, System.Globalization.CultureInfo.InvariantCulture)}\n";
+        }
+
+        if (value is System.Collections.IList list)
+        {
+            if (list.Count == 0)
+            {
+                return string.Empty;
+            }
+
+            var items = new List<string>();
+            for (var i = 0; i < list.Count; i++)
+            {
+                var item = list[i];
+                if (item is null)
+                {
+                    continue;
+                }
+
+                if (item is System.Collections.IDictionary or System.Collections.IList)
+                {
+                    items.Add($" - {convert.Convert(item)}");
+                }
+                else
+                {
+                    items.Add($" - {item}");
+                }
+            }
+
+            if (items.Count == 0)
+            {
+                return string.Empty;
+            }
+
+            return $"**{label}:**\n\n{string.Join("\n", items)}\n";
+        }
+
+        if (value is System.Collections.IDictionary nestedDict)
+        {
+            var nested = convert.Convert(nestedDict);
+            if (string.IsNullOrWhiteSpace(nested))
+            {
+                return string.Empty;
+            }
+
+            return $"**{label}:**\n\n{nested}\n";
+        }
+
+        return $"**{label}:** {value}\n";
+    }
+
+    private static string FormatKey(string key)
+    {
+        if (key.Length == 0)
+        {
+            return key;
+        }
+
+        var result = new System.Text.StringBuilder();
+        for (var i = 0; i < key.Length; i++)
+        {
+            var c = key[i];
+            if (i == 0)
+            {
+                result.Append(char.ToUpperInvariant(c));
+            }
+            else if (char.IsUpper(c))
+            {
+                result.Append(' ');
+                result.Append(c);
+            }
+            else
+            {
+                result.Append(c);
+            }
+        }
+
+        return result.ToString();
     }
 
     internal static string IndentWithPrefix(string content, string prefix)
