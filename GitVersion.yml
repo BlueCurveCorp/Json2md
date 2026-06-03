@@ -1,0 +1,26 @@
+mode: ContinuousDeployment
+assembly-versioning-scheme: MajorMinorPatch
+assembly-file-versioning-scheme: MajorMinorPatch
+tag-prefix: '[vV]'
+major-version-bump-message: '\+semver:\s?(breaking|major)'
+minor-version-bump-message: '\+semver:\s?(feature|minor)'
+patch-version-bump-message: '\+semver:\s?(fix|patch)'
+no-bump-message: '\+semver:\s?(none|skip)'
+branches:
+  main:
+    label: ''
+    increment: Patch
+    is-main-branch: true
+  develop:
+    label: alpha
+    increment: Minor
+  feature:
+    label: '{BranchName}'
+    increment: Inherit
+  pull-request:
+    label: PullRequest
+    increment: Inherit
+  release:
+    label: beta
+    increment: None
+merge-message-formats: {}
