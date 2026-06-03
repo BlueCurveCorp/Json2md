@@ -240,6 +240,50 @@ Json2Md.AsyncConverters["fetchContent"] = async (input, convert) =>
 };
 ```
 
+### System.Text.Json Support
+
+The library accepts `JsonDocument` and `JsonElement` directly, automatically converting JSON types to .NET types:
+
+```csharp
+using System.Text.Json;
+
+var json = """{"name": "Alice", "age": 30, "active": true, "tags": ["admin", "user"]}""";
+using var doc = JsonDocument.Parse(json);
+
+Json2Md.Convert(doc);
+// or
+Json2Md.Convert(doc.RootElement);
+
+// **Name:** Alice
+// **Age:** 30
+// **Active:** true
+// **Tags:**
+//
+//  - admin
+//  - user
+```
+
+### Auto-Render for Arbitrary JSON
+
+When dictionary keys don't match registered converters, they are automatically rendered as readable markdown with smart type detection:
+
+```csharp
+Json2Md.Convert(new Dictionary<string, object?>
+{
+    ["confidence"] = "High",
+    ["status"] = "Evaluating",
+    ["estimatedValue"] = null,  // null values are skipped
+    ["types"] = new List<object?> { "marketcap up 15%" },
+});
+// **Confidence:** High
+// **Status:** Evaluating
+// **Types:**
+//
+//  - marketcap up 15%
+```
+
+Keys are automatically converted from camelCase to Title Case (e.g., `estimatedValue` → `Estimated Value`).
+
 ## Original Library
 
 This is a .NET port of [json2md](https://github.com/IonicaBizau/json2md) (v2.0.3) by [Ionică Bizău](https://github.com/IonicaBizau). The API and behavior are preserved as closely as possible, including edge cases.
