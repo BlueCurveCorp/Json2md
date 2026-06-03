@@ -201,6 +201,7 @@ public sealed class Json2MdTests
     }
 
     [Test]
+    [NotInParallel]
     public async Task ShouldSupportCustomTypes()
     {
         Json2Md.Converters["sayHello"] = (input, convert) => "Hello " + input + "!";
@@ -424,6 +425,7 @@ public sealed class Json2MdTests
     }
 
     [Test]
+    [NotInParallel]
     public async Task ShouldSupportSeveralTopLevelObjectKeys()
     {
         Json2Md.Converters["sayHello"] = (input, convert) => "Hello " + input + "!";

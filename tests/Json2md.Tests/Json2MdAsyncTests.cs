@@ -42,6 +42,7 @@ public sealed class Json2MdAsyncTests
     }
 
     [Test]
+    [NotInParallel]
     public async Task ShouldSupportCustomTypesAsync()
     {
         Json2Md.Converters["sayHello"] = (input, convert) => "Hello " + input + "!";
@@ -51,6 +52,7 @@ public sealed class Json2MdAsyncTests
     }
 
     [Test]
+    [NotInParallel]
     public async Task ShouldSupportAsyncConverter()
     {
         Json2Md.AsyncConverters["asyncConvert"] = async (input, convert) =>
@@ -64,6 +66,7 @@ public sealed class Json2MdAsyncTests
     }
 
     [Test]
+    [NotInParallel]
     public async Task ShouldKeepOrderWhenAsyncConvertersFinishedAtDifferentTimes()
     {
         Json2Md.AsyncConverters["asyncConvert2"] = async (input, convert) =>

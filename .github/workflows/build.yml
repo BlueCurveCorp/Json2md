@@ -23,20 +23,26 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Install GitVersion
-      uses: gittools/actions/gitversion/setup@v3
-      with:
-        versionSpec: '6.0.x'
-
-    - name: Determine Version
-      uses: gittools/actions/gitversion/execute@v3
-      with:
-        useConfigFile: true
-
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '10.0.x'
+
+    - name: Install GitVersion
+      uses: gittools/actions/gitversion/setup@v3.1.1
+      with:
+        versionSpec: '6.0.x'
+
+    - name: Determine Version
+      uses: gittools/actions/gitversion/execute@v3.1.1
+      with:
+        useConfigFile: true
+
+    - name: Display version
+      run: |
+        echo "Version: ${{ env.GitVersion_SemVer }}"
+        echo "Full SemVer: ${{ env.GitVersion_FullSemVer }}"
+        echo "Assembly SemVer: ${{ env.GitVersion_AssemblySemVer }}"
 
     - name: Restore dependencies
       run: dotnet restore Json2md.slnx
@@ -49,7 +55,7 @@ jobs:
 
     - name: Pack NuGet package
       if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')
-      run: dotnet pack src/Json2md/Json2md.csproj --configuration Release --no-build --output ./nupkg /p:PackageVersion=${{ env.GitVersion_SemVer }}
+      run: dotnet pack src/Json2md/Json2md.csproj --configuration Release --no-build --output ./nupkg /p:PackageVersion=${{ env.GitVersion_SemVer }} /p:AssemblyVersion=${{ env.GitVersion_AssemblySemVer }} /p:FileVersion=${{ env.GitVersion_AssemblySemFileVer }} /p:InformationalVersion=${{ env.GitVersion_InformationalVersion }}
 
     - name: Upload NuGet artifact
       if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')
