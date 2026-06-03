@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="src\Json2md\Json2md.csproj" />
+  <Project Path="tests\Json2md.Tests\Json2md.Tests.csproj" />
+</Solution>

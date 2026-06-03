@@ -1,0 +1,38 @@
+###############################################################################
+# Set default behavior to automatically normalize line endings.
+###############################################################################
+* text eol=lf working-tree-encoding=UTF-8 encoding=utf-8
+*.sh eol=lf working-tree-encoding=UTF-8 encoding=utf-8
+*.service eol=lf working-tree-encoding=UTF-8 encoding=utf-8
+*.sh text working-tree-encoding=UTF-8 encoding=utf-8
+*.hcl text working-tree-encoding=UTF-8 encoding=utf-8
+*.yml text working-tree-encoding=UTF-8 encoding=utf-8
+*.yaml text working-tree-encoding=UTF-8 encoding=utf-8
+*.md text working-tree-encoding=UTF-8 encoding=utf-8
+*.mdx text working-tree-encoding=UTF-8 encoding=utf-8
+*.json text working-tree-encoding=UTF-8 encoding=utf-8
+*.cs text working-tree-encoding=UTF-8 encoding=utf-8
+*.ps1 text working-tree-encoding=UTF-8 encoding=utf-8
+*.md text working-tree-encoding=UTF-8 encoding=utf-8
+*.ts text working-tree-encoding=UTF-8 encoding=utf-8
+*.tsx text working-tree-encoding=UTF-8 encoding=utf-8
+*.tsbuildinfo text working-tree-encoding=UTF-8 encoding=utf-8
+*.config text working-tree-encoding=UTF-8 encoding=utf-8
+*.ini text working-tree-encoding=UTF-8 encoding=utf-8
+*.toml text working-tree-encoding=UTF-8 encoding=utf-8
+Dockerfile text working-tree-encoding=UTF-8 encoding=utf-8
+*.map text working-tree-encoding=UTF-8 encoding=utf-8
+*.csproj text working-tree-encoding=UTF-8 encoding=utf-8
+*.csproj text working-tree-encoding=UTF-8 encoding=utf-8
+*.esproj text working-tree-encoding=UTF-8 encoding=utf-8
+*.razor text working-tree-encoding=UTF-8 encoding=utf-8
+*.rs text working-tree-encoding=UTF-8 encoding=utf-8
+
+*.jpg   binary
+*.png   binary
+*.gif   binary
+*.ico   binary
+*.exe   binary
+*.zip   binary
+*.tar   binary
+*.tar.gz   binary

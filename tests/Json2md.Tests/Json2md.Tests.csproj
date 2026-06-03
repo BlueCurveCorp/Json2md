@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <RootNamespace>Json2md.Tests</RootNamespace>
+        <AssemblyName>Json2md.Tests</AssemblyName>
+        <IsPackable>false</IsPackable>
+        <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
+        <GenerateDocumentationFile>false</GenerateDocumentationFile>
+        <NoWarn>$(NoWarn);CA1849;CA1822;CA1515;CA1305;IDE0058;EnableGenerateDocumentationFile</NoWarn>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="TUnit" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\src\Json2md\Json2md.csproj" />
+    </ItemGroup>
+
+</Project>

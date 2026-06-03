@@ -1,0 +1,50 @@
+<Project>
+    <PropertyGroup>
+        <LangVersion>preview</LangVersion>
+        <Nullable>enable</Nullable>
+        <TargetFramework>net10.0</TargetFramework>
+        <Deterministic>true</Deterministic>
+        <DebugType>embedded</DebugType>
+        <PackageProjectUrl>https://github.com/BlueCurveCorp/Json2md</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/BlueCurveCorp/Json2md.git</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <ContinuousIntegrationBuild Condition="'$(TF_BUILD)' == 'true'">true</ContinuousIntegrationBuild>
+        <PackageTags>search engine, enterprise, cloud, bluecurve</PackageTags>
+        <Company>BlueCurve Corp</Company>
+        <Authors>BlueCurve Corp</Authors>
+        <Owners>BlueCurve Corp</Owners>
+        <Copyright>(c) BlueCurve Corp $([System.DateTime]::UtcNow.Year.ToString())</Copyright>
+        <Product>BlueCurve Search</Product>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <IncludeSymbols>true</IncludeSymbols>
+        <NeutralLanguage>en-US</NeutralLanguage>
+        <ErrorReport>send</ErrorReport>
+        <RequireLicenseAcceptance>true</RequireLicenseAcceptance>
+        <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+        <EnableNETAnalyzers>true</EnableNETAnalyzers>
+        <AnalysisLevel>latest</AnalysisLevel>
+        <AnalysisMode>All</AnalysisMode>
+        <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
+        <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+        <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <PublishRepositoryUrl>false</PublishRepositoryUrl>
+    </PropertyGroup>
+    <!-- Define SolutionDir if not already defined, mandatory to build the SDK nugets properly-->
+    <PropertyGroup Condition="'$(SolutionDir)' == ''">
+        <SolutionDir>$(MSBuildThisFileDirectory)</SolutionDir>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="DotNet.ReproducibleBuilds">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+        </PackageReference>
+		<PackageReference Include="Microsoft.SourceLink.GitHub">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</PackageReference>
+        <PackageReference Include="IsNullEnforcer" />
+    </ItemGroup>
+</Project>
